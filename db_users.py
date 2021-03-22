@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import hashlib
 
 cluster = MongoClient(
-    'mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority'
+    'mongodb+srv://main_exterminated:******@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority'
 )
 db = cluster.tfp.users
 
