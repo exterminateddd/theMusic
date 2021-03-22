@@ -54,6 +54,7 @@ header {
     position: sticky;
     top: 100%;
     display: flex;
+    transition: .3s linear;
 }
 
 .player-toggle-box p {
@@ -114,6 +115,7 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    transition: .3s linear;
 }
 
 .volume-slider-container {
@@ -148,9 +150,8 @@ input[type="range"]::-moz-range-track {
   background-color: #00FF00;
   border: none;
   border-radius: 10px;
-  margin: auto;
-  transition: all 400ms;
-  outline:none;
+    transition: all 400ms;
+    outline:none;
   padding: 0;
   margin: 0;
 }
