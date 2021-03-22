@@ -1,0 +1,18 @@
+{
+  "name": "test_flask_proj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel templates/feed.html",
+    "build": "parcel build templates/feed.html",
+    "start": "parcel templates/feed.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}
