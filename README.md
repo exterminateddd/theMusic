@@ -1,5 +1,5 @@
 # theMusic
-It's another project containing web-API and front-end.
+theMusic is an online music player
 -
 - theMusic was created for giving users ability to listen to music online without lots of unnecessary shit.<br/>
 - theMusic создан для того, чтобы давать пользователям возможность слушать музыку в браузере без ничего лишнего.

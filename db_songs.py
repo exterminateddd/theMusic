@@ -1,9 +1,12 @@
 from pymongo import MongoClient
 from string import ascii_lowercase, ascii_uppercase
 from random import choice
+from utils import get_cnf
 
 cluster = MongoClient(
-    'mongodb+srv://main_exterminated:*******@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority'
+    'mongodb+srv://main_exterminated:'+get_cnf()['mongo']['DBPassword']+'@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority',
+    ssl=True,
+    ssl_cert_reqs="CERT_NONE"
 )
 db = cluster.tfp.songs
 
