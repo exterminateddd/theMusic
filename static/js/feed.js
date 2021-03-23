@@ -24,10 +24,13 @@ function proccessSongParameter(val) {
 }
 
 function newSongPlayListenerCallback() {
+    timeRange.value = 0;
+    pause();
     if (!isPlayerVisible) {
         togglePlayerBoxVisibility();
     }
     setCurrentSong(this.dataset.songHash);
+    setTimeout(()=>{}, 1000);
 }
 
 function generateSongElementHTML(hash, name, author) {

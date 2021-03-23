@@ -1,13 +1,15 @@
 let audio = document.querySelector(".audio-player");
 let isPlaying = false;
-let isPlayerVisible = true;
+let isPlayerVisible = false;
 let currentSong = null;
-const soundVolume = document.getElementById("sound-volume");
+const soundVolume = document.getElementById("sound-volume")
 const timeRange = document.getElementById("timeRange")
+const volumeRange = document.getElementById("volumeRange")
 const playerBox = document.querySelector(".player-container")
 const songInfoBlock = document.querySelector(".songInfoBlock")
 const songName = document.getElementById("song-name")
 const songAuthor = document.getElementById("song-author")
+const playBtn = document.querySelector(".b")
 
 function togglePlayerBoxVisibility() {
     if (isPlayerVisible) {
@@ -24,57 +26,41 @@ function togglePlayerBoxVisibility() {
 function play() {
   audio.play();
   isPlaying = true;
-  document.querySelector(".b").innerHTML = `<img src="/static/assets/pause.svg" alt="">`;
-  audio.volume = document.getElementById("volumeRange").value / 100;
+  playBtn.innerHTML = `<img src="/static/assets/pause.svg" alt="">`;
+  audio.volume = volumeRange.value / 100;
 }
 
 function pause() {
   audio.pause();
   isPlaying = false;
-  document.querySelector(".b").innerHTML = `<img src="/static/assets/play.svg" alt="">`;
-  audio.volume = document.getElementById("volumeRange").value / 100;
+  playBtn.innerHTML = `<img src="/static/assets/play.svg" alt="">`;
+  audio.volume = volumeRange.value / 100;
 }
 
 function toggle() {
   isPlaying ? pause() : play()
 }
 
-document.querySelector(".b").addEventListener('click', () => {
+playBtn.addEventListener('click', () => {
     toggle();
 });
-document.getElementById("volumeRange").addEventListener("input", () => {
-    audio.volume = document.getElementById("volumeRange").value / 100;
+volumeRange.addEventListener("input", () => {
+    audio.volume = volumeRange.value / 100;
 });
-document.getElementById("timeRange").addEventListener("input", () => {
-    audio.currentTime = audio.duration / 100 * document.getElementById("timeRange").value;
-    // document.getElementById("timeRange").value = audio.currentTime / (audio.duration / 100)
+timeRange.addEventListener("input", () => {
+    audio.currentTime = audio.duration / 100 * timeRange.value;
     if (audio.currentTime > (audio.duration / 100 * 99)) {
       audio.currentTime = 0;
       pause();
     }
 });
 audio.ontimeupdate = function() {
-    document.getElementById("timeRange").value = 100 / (audio.duration / audio.currentTime)
+    timeRange.value = 100 / (audio.duration / audio.currentTime)
     if (audio.currentTime > (audio.duration / 100 * 99)) {
       audio.currentTime = 0;
       pause();
     }
 };
-
-const getSong = (hash) => {
-    $.get("/get_song_data/" + hash)
-            .done((resp) => {
-                    if (!resp.success) {
-                        Promise.reject("unsuccess").then(r => {})
-                    } else {
-                        console.log("successfully got song info")
-                        return Promise.resolve({
-                            "name": resp.info.name,
-                            "author": resp.info.author
-                        })
-                    }
-            })
-}
 
 function setCurrentSong(hash) {
     if (!hash) {return ""}

@@ -116,6 +116,7 @@ header {
     align-items: center;
     width: 100%;
     transition: .3s linear;
+    opacity: 1;
 }
 
 .volume-slider-container {
