@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, session
 from db_users import reg_user, attempt_login, get_user, get_all_users
 from db_songs import get_all_songs, get_song_data
+from time import sleep
 
 
 api = Blueprint('api_module', __name__)
@@ -52,8 +53,8 @@ def login():
     return json_resp
 
 
-@api.route('/api/get_user_info/<string:name>', methods=['GET'])
-def get_user_info(name: str):
+@api.route('/api/get_user_data/<string:name>', methods=['GET'])
+def get_user_data(name: str):
     resp_msg = {
         "success": False,
         "user_obj": {}
@@ -94,6 +95,7 @@ def get_rec_songs():
     except:
         pass
     print(resp_json)
+    sleep(5)
     return jsonify(resp_json)
 
 

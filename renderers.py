@@ -24,3 +24,8 @@ def RENDER_feed():
 @rnd.route('/signin')
 def RENDER_sign_in():
     return render_template('login.html')
+
+
+@rnd.route('/profile/<string:name>')
+def profile(name: str):
+    return render_template('profile.html')

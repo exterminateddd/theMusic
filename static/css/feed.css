@@ -215,6 +215,16 @@ input[type="range"]::-moz-range-thumb {
     align-items: center;
 }
 
+.dots-loading {
+    display: inline-block;
+    font-size: 48px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: silver;
+    width: 100%;
+}
+
 @media screen and (max-width: 500px) {
     .volumeSlider {
         width: 60px;

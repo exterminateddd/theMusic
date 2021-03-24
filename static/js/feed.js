@@ -1,5 +1,6 @@
 const songsBlock = document.querySelector(".music-top-box")
 
+let isMusicLoading = true;
 let currentUser_;
 
 const setUsernameLabel = () =>  {
@@ -66,6 +67,7 @@ const refreshSongs = () => {
                 console.log(songs[i])
                 songs[i].addEventListener('click', newSongPlayListenerCallback, false);
             }
+            isMusicLoading = false;
         }
     })
 }

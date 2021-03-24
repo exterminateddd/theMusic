@@ -52,4 +52,5 @@ def attempt_login(name, pw):
 
 def get_user(name):
     user_ = dict(db.find_one({"name": name}))
+    user_['_id'] = ""
     return user_ if user_ else False
