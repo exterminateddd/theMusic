@@ -73,10 +73,9 @@ const refreshSongs = () => {
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    setUsernameLabel()
-    refreshSongs()
-    setCurrentSong()
-    togglePlayerBoxVisibility()
+    setUsernameLabel();
+    refreshSongs();
+    setCurrentSong();
 });
 
 let currentUser = () => {
@@ -90,6 +89,5 @@ let currentUser = () => {
 };
 
 document.querySelector(".player-toggle-box").addEventListener("click", (e) => {
-    console.log("toggled")
     togglePlayerBoxVisibility();
 })

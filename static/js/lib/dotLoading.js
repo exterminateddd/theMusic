@@ -1,7 +1,7 @@
 class Loader {
     isLoading = false;
-    constructor(selector=".loader", interval= 1000) {
-        console.log("sss")
+    constructor(selector = ".loader", interval = 1000, dotsNumber = 3) {
+        this.dotsNumber = dotsNumber;
         this.interval = interval;
         this.isLoading = false;
         this.elem = document.querySelector(selector);
@@ -18,8 +18,7 @@ class Loader {
         return this.isLoading;
     }
     updateLoader() {
-        console.log("test")
-        if (this.elem.textContent.length === 3) {
+        if (this.elem.textContent.length === this.dotsNumber) {
             this.elem.textContent = ".";
             return 0;
         }

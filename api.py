@@ -99,7 +99,7 @@ def get_rec_songs():
     return jsonify(resp_json)
 
 
-@api.route('/get_song_data/<string:hash_>', methods=['GET'])
+@api.route('/api/get_song_data/<string:hash_>', methods=['GET'])
 def get_song_data_(hash_: str):
     resp_json = {
         "success": False,

@@ -11,6 +11,12 @@ const songName = document.getElementById("song-name")
 const songAuthor = document.getElementById("song-author")
 const playBtn = document.querySelector(".b")
 
+if (getCookie('last_song')) {
+    setCurrentSong(getCookie('last_song'), () => {
+        togglePlayerBoxVisibility()
+    });
+}
+
 function togglePlayerBoxVisibility() {
     if (isPlayerVisible) {
         playerBox.style.opacity = "0";
@@ -62,17 +68,19 @@ audio.ontimeupdate = function() {
     }
 };
 
-function setCurrentSong(hash) {
+function setCurrentSong(hash, successCallback) {
     if (!hash) {return ""}
     audio.src = "/static/audio/"+hash+".mp3";
     timeRange.value = 0;
-    $.get("/get_song_data/" + hash)
+    $.get("/api/get_song_data/" + hash)
             .done(({success, info}) => {
                 if (!success) {
 
                 } else {
                     currentSong = hash;
                     setPlayerBarSongInfo(info.author, info.name);
+                    document.cookie = "last_song="+hash;
+                    successCallback();
                 }
             })
 }
