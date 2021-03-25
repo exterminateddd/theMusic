@@ -30,7 +30,7 @@ function newSongPlayListenerCallback() {
     if (!isPlayerVisible) {
         togglePlayerBoxVisibility();
     }
-    setCurrentSong(this.dataset.songHash);
+    setCurrentSong(this.dataset.songHash, ()=>{play()});
     setTimeout(()=>{}, 1000);
 }
 
