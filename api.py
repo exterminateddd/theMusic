@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, session
 from db_users import reg_user, attempt_login, get_user, get_all_users
 from db_songs import get_all_songs, get_song_data
 from time import sleep
+from loguru import logger
 
 
 api = Blueprint('api_module', __name__)
@@ -53,6 +54,18 @@ def login():
     return json_resp
 
 
+@api.route('/api/logout')
+def logout():
+    json_resp = {
+        'success': True
+    }
+    try:
+        session['current_user'] = ''
+    except:
+        json_resp['success'] = False
+    return jsonify(json_resp)
+
+
 @api.route('/api/get_user_data/<string:name>', methods=['GET'])
 def get_user_data(name: str):
     resp_msg = {
@@ -101,6 +114,7 @@ def get_rec_songs():
 
 @api.route('/api/get_song_data/<string:hash_>', methods=['GET'])
 def get_song_data_(hash_: str):
+
     resp_json = {
         "success": False,
         "info": {}

@@ -10,12 +10,24 @@ const songInfoBlock = document.querySelector(".songInfoBlock")
 const songName = document.getElementById("song-name")
 const songAuthor = document.getElementById("song-author")
 const playBtn = document.querySelector(".b")
+const logOutBtn = document.querySelector('#logout')
 
 if (getCookie('last_song')) {
     setCurrentSong(getCookie('last_song'), () => {
-        togglePlayerBoxVisibility()
+        togglePlayerBoxVisibility();
     });
 }
+
+logOutBtn.addEventListener('click', (e) => {
+    $.get('/api/logout')
+        .then(({success}) => {
+            if (!success) {
+
+            } else {
+                window.location = window.location.origin+"/signin"
+            }
+        })
+})
 
 function togglePlayerBoxVisibility() {
     if (isPlayerVisible) {

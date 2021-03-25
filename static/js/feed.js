@@ -52,7 +52,7 @@ function generateSongElementHTML(hash, name, author) {
                     `
 }
 
-const refreshSongs = () => {
+const refreshSongs = (successCallback) => {
     $.get('/api/get_all_songs').done((resp) => {
         if (!resp.success) {} else {
             let songsContent = ``
@@ -74,7 +74,6 @@ const refreshSongs = () => {
 
 document.addEventListener('DOMContentLoaded', (e) => {
     setUsernameLabel();
-    refreshSongs();
     setCurrentSong();
 });
 

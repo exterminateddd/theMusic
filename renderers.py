@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session, redirect
 
 rnd = Blueprint('render_page', __name__, template_folder='templates')
 
@@ -16,7 +16,10 @@ def RENDER_root():
 
 @rnd.route('/feed')
 def RENDER_feed():
-    return render_template('feed.html')
+    if session['current_user']:
+        return render_template('feed.html')
+    else:
+        return redirect("/signin")
 
 
 @rnd.route('/login')
