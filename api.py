@@ -8,9 +8,13 @@ from loguru import logger
 api = Blueprint('api_module', __name__)
 
 
+def set_session_user(name_):
+    session.__setitem__("current_user", name_)
+
+
 @api.route('/api/reg', methods=['POST'])
 def reg():
-    json_resp = {
+    resp_json = {
         'success': True,
         'msg': ''
     }
@@ -21,21 +25,19 @@ def reg():
         if not name_ or not pw_: raise KeyError("Username or Password not provided")
         reg_ = reg_user(name_, pw_)
         if reg_:
-            session.current_user = name_
-            json_resp['msg'] = "Register Successful!"
-            session.__setitem__("current_user", name_)
+            resp_json['msg'] = "Register Successful!"
+            set_session_user(name_)
         else:
-            json_resp['msg'] = "User With Name "+name_+" Already Exists"
-    except Exception as ex:
-        json_resp['success'] = False
-        json_resp['msg'] = str(ex.args)
-    return jsonify(json_resp)
+            resp_json['msg'] = "User With Name "+name_+" Already Exists"
+    except Exception as e:
+        resp_json['success'] = False
+        resp_json['msg'] = "ERROR_"+str(e.args[0])
+    return jsonify(resp_json)
 
 
 @api.route('/api/login', methods=['POST'])
 def login():
-    session.permanent = True
-    json_resp = {
+    resp_json = {
         'success': False,
         'msg': ''
     }
@@ -44,41 +46,40 @@ def login():
     pw_ = json_['pw']
     try:
         attlog = attempt_login(name_, pw_)
-        json_resp['msg'] = 'LOGIN_SUCCESS'
-        json_resp['success'] = True
-        session.__setitem__("current_user", name_)
+        resp_json['msg'] = 'LOGIN_SUCCESS'
+        resp_json['success'] = True
+        set_session_user(name_)
     except Exception as e:
-        json_resp['msg'] = "ERROR_"+str(e.args[0])
-    json_resp = jsonify(json_resp)
-    json_resp.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        resp_json['msg'] = "ERROR_"+str(e.args[0])
+    json_resp = jsonify(resp_json)
     return json_resp
 
 
-@api.route('/api/logout')
+@api.route('/api/logout', methods=['GET'])
 def logout():
-    json_resp = {
+    resp_json = {
         'success': True
     }
     try:
-        session['current_user'] = ''
+        set_session_user('')
     except:
-        json_resp['success'] = False
-    return jsonify(json_resp)
+        resp_json['success'] = False
+    return jsonify(resp_json)
 
 
 @api.route('/api/get_user_data/<string:name>', methods=['GET'])
 def get_user_data(name: str):
-    resp_msg = {
+    resp_json = {
         "success": False,
         "user_obj": {}
     }
     user_found = get_user(name)
     if not user_found:
-        resp_msg['success'] = False
+        resp_json['success'] = False
     else:
-        resp_msg['user_obj'] = user_found
+        resp_json['user_obj'] = user_found
 
-    return jsonify(resp_msg)
+    return jsonify(resp_json)
 
 
 @api.route('/api/get_session_user', methods=['GET'])
