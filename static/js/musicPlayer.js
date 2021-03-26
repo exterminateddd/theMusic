@@ -11,6 +11,7 @@ const songName = document.getElementById("song-name")
 const songAuthor = document.getElementById("song-author")
 const playBtn = document.querySelector(".b")
 const logOutBtn = document.querySelector('#logout')
+const playerToggleBox = document.querySelector('.player-toggle-box')
 
 if (getCookie('last_song')) {
     setCurrentSong(getCookie('last_song'), () => {
@@ -31,10 +32,12 @@ logOutBtn.addEventListener('click', (e) => {
 
 function togglePlayerBoxVisibility() {
     if (isPlayerVisible) {
+        playerToggleBox.querySelector('img').style.transform = 'translateY(50%) rotateY(0deg)';
         playerBox.style.opacity = "0";
         isPlayerVisible = false;
     } else {
         if (currentSong) {
+            playerToggleBox.querySelector('img').style.transform = 'translateY(50%) rotateY(180deg)';
             playerBox.style.opacity = "1";
             isPlayerVisible = true;
         }

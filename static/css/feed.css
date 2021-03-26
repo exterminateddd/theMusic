@@ -214,7 +214,11 @@ input[type="range"]::-moz-range-thumb {
     align-items: center;
 }
 
-
+.player-toggle-box img {
+    transition: .3s linear;
+    transform: translateY(50%);
+    margin-top: 50%;
+}
 
 .dots-loading {
     display: inline-block;
