@@ -13,8 +13,8 @@ const playBtn = document.querySelector(".b")
 const logOutBtn = document.querySelector('#logout')
 const playerToggleBox = document.querySelector('.player-toggle-box')
 
-if (getCookie('last_song')) {
-    setCurrentSong(getCookie('last_song'), () => {
+if (localStorage.getItem('lastSong')) {
+    setCurrentSong(localStorage.getItem('lastSong'), () => {
         togglePlayerBoxVisibility();
     });
 }
@@ -25,7 +25,8 @@ logOutBtn.addEventListener('click', (e) => {
             if (!success) {
 
             } else {
-                window.location = window.location.origin+"/signin"
+                localStorage.removeItem('lastSong');
+                window.location = window.location.origin+"/signin";
             }
         })
 })
@@ -94,7 +95,9 @@ function setCurrentSong(hash, successCallback) {
                 } else {
                     currentSong = hash;
                     setPlayerBarSongInfo(info.author, info.name);
-                    document.cookie = "last_song="+hash;
+                    if (localStorage.getItem('lastSong') !== hash) {
+                        localStorage.setItem('lastSong', hash);
+                    }
                     successCallback();
                 }
             })

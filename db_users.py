@@ -30,7 +30,8 @@ def reg_user(name, pw):
         if check_if_user_exists_by_name(name): raise Exception('USER_EXISTS')
         user = db.insert({
             'name': name,
-            'pw': hs(pw)
+            'pw': hs(pw),
+            'singer': False
         })
         if user:
             return user
@@ -54,3 +55,17 @@ def get_user(name):
     user_ = dict(db.find_one({"name": name}))
     user_['_id'] = ""
     return user_ if user_ else False
+
+
+def set_user_field(username, key, value):
+    try:
+        updated = db.update({
+                'name': username
+            }, {
+                '$set': {
+                    key: value
+                }
+            }, upsert=False
+        )
+    except:
+        return False

@@ -24,7 +24,7 @@ def add_song(name: str, author: str):
             'author': author,
             'hash': new_hash
         })
-    except:
+    except Exception:
         return False
     return True
 
@@ -32,11 +32,8 @@ def add_song(name: str, author: str):
 def get_song_data(hash_: str):
     try:
         find = db.find_one({"hash": hash_})
-        print(find)
         if find:
             return find
-        else:
-            raise Exception("!")
-    except:
+        raise Exception("")
+    except Exception:
         return False
-

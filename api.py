@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, session
 from db_users import reg_user, attempt_login, get_user, get_all_users
 from db_songs import get_all_songs, get_song_data
 from time import sleep
+from contextlib import suppress
 from loguru import logger
 
 
@@ -103,11 +104,9 @@ def get_rec_songs():
         "success": False,
         "songs": []
     }
-    try:
+    with suppress(Exception):
         resp_json['songs'] = [{k: v for k, v in song.items() if k != "_id"} for song in get_all_songs()]
         resp_json['success'] = True
-    except:
-        pass
     print(resp_json)
     sleep(5)
     return jsonify(resp_json)
@@ -115,15 +114,12 @@ def get_rec_songs():
 
 @api.route('/api/get_song_data/<string:hash_>', methods=['GET'])
 def get_song_data_(hash_: str):
-
     resp_json = {
         "success": False,
         "info": {}
     }
-    try:
+    with suppress(Exception):
         resp_json['info'] = get_song_data(hash_)
         resp_json['info']['_id'] = 0
         resp_json['success'] = True
-    except:
-        pass
     return jsonify(resp_json)

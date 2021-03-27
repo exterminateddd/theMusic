@@ -18,8 +18,7 @@ def RENDER_root():
 def RENDER_feed():
     if session['current_user']:
         return render_template('feed.html')
-    else:
-        return redirect("/signin")
+    return redirect("/signin")
 
 
 @rnd.route('/login')
@@ -30,5 +29,5 @@ def RENDER_sign_in():
 
 
 @rnd.route('/profile/<string:name>')
-def profile(name: str):
+def RENDER_profile(name: str):
     return render_template('profile.html')
