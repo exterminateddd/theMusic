@@ -17,6 +17,7 @@ if (localStorage.getItem('lastSong')) {
     setCurrentSong(localStorage.getItem('lastSong'), () => {
         togglePlayerBoxVisibility();
     });
+    audio.currentTime = localStorage.getItem('lastTime');
 }
 
 logOutBtn.addEventListener('click', (e) => {
@@ -33,12 +34,12 @@ logOutBtn.addEventListener('click', (e) => {
 
 function togglePlayerBoxVisibility() {
     if (isPlayerVisible) {
-        playerToggleBox.querySelector('img').style.transform = 'translateY(50%) rotateY(0deg)';
+        playerToggleBox.querySelector('img').style.transform = 'rotateY(0deg)';
         playerBox.style.opacity = "0";
         isPlayerVisible = false;
     } else {
         if (currentSong) {
-            playerToggleBox.querySelector('img').style.transform = 'translateY(50%) rotateY(180deg)';
+            playerToggleBox.querySelector('img').style.transform = 'rotateY(180deg)';
             playerBox.style.opacity = "1";
             isPlayerVisible = true;
         }
@@ -48,14 +49,14 @@ function togglePlayerBoxVisibility() {
 function play() {
   audio.play();
   isPlaying = true;
-  playBtn.innerHTML = `<img src="/static/assets/pause.svg" alt="">`;
+  playBtn.querySelector("span").textContent = `pause_circle_outline`;
   audio.volume = volumeRange.value / 100;
 }
 
 function pause() {
   audio.pause();
   isPlaying = false;
-  playBtn.innerHTML = `<img src="/static/assets/play.svg" alt="">`;
+  playBtn.querySelector("span").textContent = `play_circle_outline`;
   audio.volume = volumeRange.value / 100;
 }
 
@@ -98,7 +99,9 @@ function setCurrentSong(hash, successCallback) {
                     if (localStorage.getItem('lastSong') !== hash) {
                         localStorage.setItem('lastSong', hash);
                     }
-                    successCallback();
+                    if (successCallback) {
+                        successCallback();
+                    }
                 }
             })
 }

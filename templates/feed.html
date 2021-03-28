@@ -13,21 +13,25 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
+      rel="stylesheet">
     <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/marker_fav.svg')}}"/>
     <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
     <link rel="stylesheet" href="/static/css/feed.css">
     <link rel="stylesheet" href="/static/css/blocks/player.css">
     <link rel="stylesheet" href="/static/css/blocks/song.css">
+    <link rel="stylesheet" href="/static/css/blocks/header.css">
     <script src="/static/js/lib/dotLoading.js"></script>
     <script src="/static/js/lib/notify.min.js"></script>
     <script src="/static/js/lib/getCookie.js"></script>
-
 </head>
 <body>
     <header>
         <div></div>
         <div class="user-info">
-            <p id="username"></p><a id="logout" href="#">Log Out</a>
+            <p id="username"></p>
+            <button type="button" class="btn badge-pill btn-dark badge-primary" id="profile">Profile</button>
+            <button type="button" class="btn badge-pill btn-dark badge-secondary" id="logout">Log Out</button>
         </div>
     </header>
     <div class="music-top-box">
@@ -38,7 +42,11 @@
     <audio src="/static/audio/dqbYGx9tD4ne.mp3" class="audio-player"></audio>
     <div class="player-total-wrapper">
         <div class="player-container">
-            <button class="b"><img src="/static/assets/play.svg" alt="Play/Pause"></button>
+            <button class="b">
+                <span class="material-icons">
+                    play_circle_outline
+                </span>
+            </button>
             <div class="middle-container">
                 <div class="songInfoBlock">
                     <h1 id="song-name">Song name</h1>

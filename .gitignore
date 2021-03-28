@@ -1,6 +1,7 @@
 node_modules
 .idea
 config.json
+temp.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

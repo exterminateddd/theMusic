@@ -35,3 +35,12 @@
     color: #fffcfc;
     opacity: 0.5;
 }
+
+@media screen and (min-width: 2500px) {
+    .song__left-side {
+        margin: 0 auto;
+    }
+    .song-name, .song-author {
+        text-align: center;
+    }
+}

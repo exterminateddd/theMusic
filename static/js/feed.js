@@ -5,7 +5,9 @@ let currentUser_;
 
 const setUsernameLabel = () =>  {
     $.get('/api/get_session_user').done((resp)=> {
-        if (!resp.success) {window.location=window.location.origin+"/signin"; console.log(resp.error)} else {
+        if (!resp.success) {
+            window.location=window.location.origin+"/signin"; console.log(resp.error)
+        } else {
             currentUser_ = resp.user;
             document.querySelector("#username").textContent = currentUser_;
         }
@@ -30,7 +32,7 @@ function newSongPlayListenerCallback() {
     if (!isPlayerVisible) {
         togglePlayerBoxVisibility();
     }
-    setCurrentSong(this.dataset.songHash, ()=>{play()});
+    setCurrentSong(this.parentNode.parentNode.dataset.songHash, ()=>{play()});
     setTimeout(()=>{}, 1000);
 }
 
@@ -60,14 +62,10 @@ const refreshSongs = (successCallback) => {
                 songsContent += generateSongElementHTML(song.hash, song.name, song.author);
             })
             songsBlock.innerHTML = songsContent;
-
-            let songs = document.querySelectorAll(".song")
-
-            for (let i = 0; i < songs.length; i++) {
-                console.log(songs[i])
-                songs[i].addEventListener('click', newSongPlayListenerCallback, false);
-            }
             isMusicLoading = false;
+            document.querySelectorAll(".playRecSong").forEach((elem) => {
+                elem.addEventListener("click", newSongPlayListenerCallback)
+            })
         }
     })
 }
@@ -89,4 +87,8 @@ let currentUser = () => {
 
 document.querySelector(".player-toggle-box").addEventListener("click", (e) => {
     togglePlayerBoxVisibility();
-})
+});
+
+window.onbeforeunload = function () {
+    localStorage.setItem('lastTime', audio.currentTime);
+};

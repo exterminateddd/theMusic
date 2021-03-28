@@ -108,7 +108,6 @@ def get_rec_songs():
         resp_json['songs'] = [{k: v for k, v in song.items() if k != "_id"} for song in get_all_songs()]
         resp_json['success'] = True
     print(resp_json)
-    sleep(5)
     return jsonify(resp_json)
 
 
