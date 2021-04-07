@@ -10,8 +10,7 @@ def RENDER_registration():
 
 @rnd.route('/')
 def RENDER_root():
-    # TODO
-    return ''
+    return render_template("index.html")
 
 
 @rnd.route('/feed')

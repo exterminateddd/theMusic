@@ -18,6 +18,9 @@ if (localStorage.getItem('lastSong')) {
         togglePlayerBoxVisibility();
     });
     audio.currentTime = localStorage.getItem('lastTime');
+    audio.volume = 0;
+    play() ? localStorage.getItem('keepPlaying') : pause();
+    audio.volume = 0.5;
 }
 
 logOutBtn.addEventListener('click', (e) => {

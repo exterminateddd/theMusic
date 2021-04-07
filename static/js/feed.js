@@ -6,7 +6,7 @@ let currentUser_;
 const setUsernameLabel = () =>  {
     $.get('/api/get_session_user').done((resp)=> {
         if (!resp.success) {
-            window.location=window.location.origin+"/signin"; console.log(resp.error)
+            window.location=window.location.origin+"/signin"; console.log(resp.error);
         } else {
             currentUser_ = resp.user;
             document.querySelector("#username").textContent = currentUser_;
@@ -72,7 +72,6 @@ const refreshSongs = (successCallback) => {
 
 document.addEventListener('DOMContentLoaded', (e) => {
     setUsernameLabel();
-    setCurrentSong();
 });
 
 let currentUser = () => {
@@ -91,4 +90,5 @@ document.querySelector(".player-toggle-box").addEventListener("click", (e) => {
 
 window.onbeforeunload = function () {
     localStorage.setItem('lastTime', audio.currentTime);
+    localStorage.setItem('keepPlaying', isPlaying);
 };

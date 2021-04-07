@@ -1,11 +1,11 @@
 from pymongo import MongoClient
-from utils import get_cnf
+from utils import get_db_cnf
 
 import hashlib
 
 
 cluster = MongoClient(
-    'mongodb+srv://main_exterminated:'+get_cnf()['mongo']['DBPassword']+'@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority',
+    'mongodb+srv://main_exterminated:'+get_db_cnf()['DBPassword']+'@cluster0.tj4ux.gcp.mongodb.net/tfp?retryWrites=true&w=majority',
     ssl=True,
     ssl_cert_reqs="CERT_NONE"
 )

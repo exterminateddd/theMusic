@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, session
 from db_users import reg_user, attempt_login, get_user, get_all_users
 from db_songs import get_all_songs, get_song_data
-from time import sleep
+from utils import get_app_cnf
 from contextlib import suppress
 from loguru import logger
 
@@ -54,6 +54,19 @@ def login():
         resp_json['msg'] = "ERROR_"+str(e.args[0])
     json_resp = jsonify(resp_json)
     return json_resp
+
+
+@api.route('/api/get_app_data')
+def get_app_data():
+    resp_json = {
+        "success": True,
+        "data": {}
+    }
+    try:
+        resp_json['data'] = get_app_cnf()
+    except Exception as e:
+        resp_json['success'] = False
+    return resp_json
 
 
 @api.route('/api/logout', methods=['GET'])
