@@ -1,0 +1,8 @@
+{
+  "mongo": {
+    "DBPassword": "secret_key"
+  },
+  "app": {
+    "status": "This website is currently under development!"
+  }
+}
