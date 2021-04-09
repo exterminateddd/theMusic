@@ -24,15 +24,7 @@ if (localStorage.getItem('lastSong')) {
 }
 
 logOutBtn.addEventListener('click', (e) => {
-    $.get('/api/logout')
-        .then(({success}) => {
-            if (!success) {
-
-            } else {
-                localStorage.removeItem('lastSong');
-                window.location = window.location.origin+"/signin";
-            }
-        })
+    logOut();
 })
 
 function togglePlayerBoxVisibility() {
@@ -92,21 +84,20 @@ function setCurrentSong(hash, successCallback) {
     if (!hash) {return ""}
     audio.src = "/static/audio/"+hash+".mp3";
     timeRange.value = 0;
-    $.get("/api/get_song_data/" + hash)
-            .done(({success, info}) => {
-                if (!success) {
-
-                } else {
-                    currentSong = hash;
-                    setPlayerBarSongInfo(info.author, info.name);
-                    if (localStorage.getItem('lastSong') !== hash) {
-                        localStorage.setItem('lastSong', hash);
-                    }
-                    if (successCallback) {
-                        successCallback();
-                    }
-                }
-            })
+    getSongData(hash)
+        .then((data) => {
+            currentSong = hash;
+            setPlayerBarSongInfo(data.author, data.name);
+            if (localStorage.getItem('lastSong') !== hash) {
+                localStorage.setItem('lastSong', hash);
+            }
+            if (successCallback) {
+                successCallback();
+            }
+        })
+        .catch(err => {
+            $.notify("Error getting song data", "error")
+        })
 }
 
 function setPlayerBarSongInfo(author, name) {

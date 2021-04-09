@@ -3,15 +3,15 @@ const songsBlock = document.querySelector(".music-top-box")
 let isMusicLoading = true;
 let currentUser_;
 
-const setUsernameLabel = () =>  {
-    $.get('/api/get_session_user').done((resp)=> {
-        if (!resp.success) {
-            window.location=window.location.origin+"/signin"; console.log(resp.error);
-        } else {
-            currentUser_ = resp.user;
-            document.querySelector("#username").textContent = currentUser_;
-        }
-    });
+function setCurrentUser() {
+    getSessionUser()
+        .then((username) => {
+            getUserData(username)
+                .then((data) => {
+                    currentUser_ = data;
+                    setUsernameLabel(data.name);
+                })
+        })
 }
 
 function titleCase(str) {
@@ -55,34 +55,23 @@ function generateSongElementHTML(hash, name, author) {
 }
 
 const refreshSongs = (successCallback) => {
-    $.get('/api/get_all_songs').done((resp) => {
-        if (!resp.success) {} else {
-            let songsContent = ``
-            resp['songs'].forEach(song => {
-                songsContent += generateSongElementHTML(song.hash, song.name, song.author);
-            })
-            songsBlock.innerHTML = songsContent;
-            isMusicLoading = false;
-            document.querySelectorAll(".playRecSong").forEach((elem) => {
-                elem.addEventListener("click", newSongPlayListenerCallback)
-            })
-        }
+    getAllSongs().then(songs => {
+        let songsContent = ``
+        songs.forEach(song => {
+            songsContent += generateSongElementHTML(song.hash, song.name, song.author);
+        })
+        songsBlock.innerHTML = songsContent;
+        isMusicLoading = false;
+        document.querySelectorAll(".playRecSong").forEach((elem) => {
+            elem.addEventListener("click", newSongPlayListenerCallback)
+        })
     })
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    setUsernameLabel();
+    setCurrentUser();
+    refreshSongs()
 });
-
-let currentUser = () => {
-    $.get(`/get_user_info/${currentUser_}`).done((resp) => {
-        if (resp.success) {
-            return resp.user_obj;
-        } else {
-            $.notify("Error getting user info", "error");
-        }
-    });
-};
 
 document.querySelector(".player-toggle-box").addEventListener("click", (e) => {
     togglePlayerBoxVisibility();

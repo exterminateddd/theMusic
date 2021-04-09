@@ -85,13 +85,13 @@ def logout():
 def get_user_data(name: str):
     resp_json = {
         "success": False,
-        "user_obj": {}
+        "data": {}
     }
     user_found = get_user(name)
     if not user_found:
         resp_json['success'] = False
     else:
-        resp_json['user_obj'] = user_found
+        resp_json['data'] = user_found
 
     return jsonify(resp_json)
 
@@ -100,11 +100,11 @@ def get_user_data(name: str):
 def get_session_user():
     resp_json = {
         "success": False,
-        "user": ''
+        "username": ''
     }
     print(dict(session))
     try:
-        resp_json["user"] = session['current_user']
+        resp_json["username"] = session['current_user']
         resp_json["success"] = True
     except Exception as e:
         resp_json['error'] = 'ERROR_'+str(e.args[0])
@@ -128,10 +128,10 @@ def get_rec_songs():
 def get_song_data_(hash_: str):
     resp_json = {
         "success": False,
-        "info": {}
+        "data": {}
     }
     with suppress(Exception):
-        resp_json['info'] = get_song_data(hash_)
-        resp_json['info']['_id'] = 0
+        resp_json['data'] = get_song_data(hash_)
+        resp_json['data']['_id'] = 0
         resp_json['success'] = True
     return jsonify(resp_json)
