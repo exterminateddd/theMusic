@@ -1,4 +1,5 @@
 const songsBlock = document.querySelector(".music-top-box")
+const logoutBtn = document.querySelector("#logout")
 
 let isMusicLoading = true;
 let currentUser_;
@@ -17,6 +18,16 @@ if (localStorage.getItem('lastSong')) {
         })
 }
 
+logoutBtn.addEventListener('click', (e) => {
+    logOut()
+        .then((resp) => {
+            window.location = window.location.origin + '/login'
+        })
+        .catch((err) => {
+            $.notify("Failed to log out!", "error")
+        })
+})
+
 function setCurrentUser() {
     getSessionUser()
         .then((username) => {
@@ -29,11 +40,11 @@ function setCurrentUser() {
 }
 
 function titleCase(str) {
-      str = str.toLowerCase().split(' ');
-      for (let i = 0; i < str.length; i++) {
+    str = str.toLowerCase().split(' ');
+    for (let i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-      }
-      return str.join(' ');
+    }
+    return str.join(' ');
 }
 
 function proccessSongParameter(val) {
