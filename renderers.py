@@ -16,7 +16,7 @@ def RENDER_root():
 @rnd.route('/feed')
 def RENDER_feed():
     if 'current_user' in session.keys():
-        if session['current_user'] is not None:
+        if session['current_user']:
             return render_template('feed.html')
     return redirect("/signin")
 
