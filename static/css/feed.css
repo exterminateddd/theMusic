@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.music-top-box {
+    width: 100%;
+    height: auto;
+    border: 0;
+    margin-top: 12px;
+}
+
+.song+.song {
+    margin-top: 6px;
+}
+
+.dots-loading {
+    display: inline-block;
+    font-size: 48px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: silver;
+    width: 100%;
+}

@@ -1,0 +1,23 @@
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#username {
+    margin-bottom: 0!important;
+    margin-right: 12px;
+}
+
+button:focus {
+    outline: 0!important;
+}
+
+header {
+    margin: 0;
+    padding: 0 14px;
+    color: aliceblue;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
