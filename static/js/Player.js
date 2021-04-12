@@ -18,12 +18,12 @@ class Player {
                 </div>
                 <div class="volume-slider-container">
                     <h6 id="sound-volume"></h6>
-                    <p class="volumeLimit">
-                        0
+                    <p class="volumeLimit volBefore">
+                        50
                     </p>
                     <input type="range" min="0" max="100" value="50" class="volumeSlider volumeRange">
-                    <p class="volumeLimit">
-                        100
+                    <p class="volumeLimit volAfter">
+                        50
                     </p>
                 </div>
             </div>
@@ -32,54 +32,56 @@ class Player {
             </div>
             `
 
-            // elements
+        // elements
 
-            this.container = this.wrapper.querySelector(".player-container");
-            this.visToggleBtn = this.wrapper.querySelector(".player-toggle-box");
-            this.stateToggleBtn = this.container.querySelector(".b");
-            this.stateIndicator = this.stateToggleBtn.querySelector("span");
-            this.audio = this.wrapper.querySelector("audio");
-            this.infoBlock = this.container.querySelector(".middle-container").querySelector(".songInfoBlock");
-            this.volumeLine = this.wrapper.querySelector(".volume-slider-container").querySelector("input");
-            this.timeLine = this.infoBlock.parentNode.querySelector(".timeRange");
-            this.authorLbl = this.infoBlock.querySelector(".song-author");
-            this.nameLbl = this.infoBlock.querySelector(".song-name");
+        this.container = this.wrapper.querySelector(".player-container");
+        this.visToggleBtn = this.wrapper.querySelector(".player-toggle-box");
+        this.stateToggleBtn = this.container.querySelector(".b");
+        this.stateIndicator = this.stateToggleBtn.querySelector("span");
+        this.audio = this.wrapper.querySelector("audio");
+        this.infoBlock = this.container.querySelector(".middle-container").querySelector(".songInfoBlock");
+        this.volumeLine = this.wrapper.querySelector(".volume-slider-container").querySelector("input");
+        this.timeLine = this.infoBlock.parentNode.querySelector(".timeRange");
+        this.authorLbl = this.infoBlock.querySelector(".song-author");
+        this.nameLbl = this.infoBlock.querySelector(".song-name");
+        this.volBefore = this.container.querySelector(".volume-slider-container").querySelector(".volBefore");
+        this.volAfter = this.container.querySelector(".volume-slider-container").querySelector(".volAfter");
 
-            // publics
+        // publics
 
-            this.isPlaying = false;
-            this.isVisible = true;
-            this.currentSong;
+        this.isPlaying = false;
+        this.isVisible = true;
+        this.currentSong;
 
-            // listeners
+        // listeners
 
-            this.visToggleBtn.addEventListener('click', (e) => {
-                this.toggleVis();
-            })
+        this.visToggleBtn.addEventListener('click', (e) => {
+            this.toggleVis();
+        })
 
-            this.stateToggleBtn.addEventListener('click', (e) => {
-                this.toggleState();
-            })
+        this.stateToggleBtn.addEventListener('click', (e) => {
+            this.toggleState();
+        })
 
-            this.audio.ontimeupdate = () => {
-                this.updateTime(this.audio.currentTime);
-            }
+        this.audio.ontimeupdate = () => {
+            this.updateTime(this.audio.currentTime);
+        }
 
-            this.timeLine.addEventListener("input", (e) => {
-                this.audio.currentTime = this.timeLine.value;
-            })
+        this.timeLine.addEventListener("input", (e) => {
+            this.audio.currentTime = this.timeLine.value;
+        })
 
-            this.volumeLine.addEventListener("input", (e) => {
-                this.audio.volume = this.volumeLine.value/100;
-            })
+        this.volumeLine.addEventListener("input", (e) => {
+            this.setVolume(this.volumeLine.value / 100);
+        })
 
-            // other
-            this.audio.volume = 0.5
+        // other
+        this.audio.volume = 0.5
     }
 
     setSong(name, author, hash) {
         this.currentSong = new Song(name, author, hash);
-        this.audio.src = "/static/audio/"+hash+'.mp3';
+        this.audio.src = "/static/audio/" + hash + '.mp3';
         this.audio.onloadedmetadata = () => {
             this.timeLine.max = Math.floor(parseFloat(this.audio.duration));
         }
@@ -105,7 +107,7 @@ class Player {
             this.audio.play();
             this.isPlaying = true;
             this.stateIndicator.textContent = "pause_circle_outline";
-            if (this.audio.currentTime >= Math.floor(parseFloat(this.audio.duration))-1) {
+            if (this.audio.currentTime >= Math.floor(parseFloat(this.audio.duration)) - 1) {
                 this.setTime(0);
                 this.pause()
             }
@@ -128,11 +130,13 @@ class Player {
         this.audio.currentTime = time;
     }
     setVolume(volume) {
-        this.audio.volume = volume>1 ? volume/100 : volume;
+        this.volBefore.textContent = Math.floor(volume * 100);
+        this.volAfter.textContent = Math.floor(100 - volume * 100);
+        this.audio.volume = volume;
     }
     updateTime(time) {
         this.timeLine.value = time;
-        if (time >= Math.floor(parseFloat(this.audio.duration))-1) {
+        if (time >= Math.floor(parseFloat(this.audio.duration)) - 1) {
             this.pause();
         }
     }
