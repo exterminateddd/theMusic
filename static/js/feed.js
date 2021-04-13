@@ -1,10 +1,25 @@
 const songsBlock = document.querySelector(".music-top-box")
 const logoutBtn = document.querySelector("#logout")
 
+const logoutConfirmModal = new jBox('Confirm', {
+    confirmButton: 'Do it!',
+    cancelButton: 'Nope',
+    confirm: () => {
+        logOut()
+            .then((resp) => {
+                window.location = window.location.origin + '/login'
+            })
+            .catch((err) => {
+                $.notify("Failed to log out!", "error")
+            })
+    },
+});
+
 let isMusicLoading = true;
 let currentUser_;
 
 let player = new Player('.player-bottom');
+
 
 if (localStorage.getItem('lastSong')) {
     getSongData(localStorage.getItem('lastSong'))
@@ -19,13 +34,7 @@ if (localStorage.getItem('lastSong')) {
 }
 
 logoutBtn.addEventListener('click', (e) => {
-    logOut()
-        .then((resp) => {
-            window.location = window.location.origin + '/login'
-        })
-        .catch((err) => {
-            $.notify("Failed to log out!", "error")
-        })
+    logoutConfirmModal.open();
 })
 
 function setCurrentUser() {

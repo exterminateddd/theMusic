@@ -52,6 +52,10 @@ class Player {
         this.isPlaying = false;
         this.isVisible = true;
         this.currentSong;
+        this.onSongEnd = () => {
+            this.setTime(0);
+            this.pause();
+        }
 
         // listeners
 
@@ -107,10 +111,6 @@ class Player {
             this.audio.play();
             this.isPlaying = true;
             this.stateIndicator.textContent = "pause_circle_outline";
-            if (this.audio.currentTime >= Math.floor(parseFloat(this.audio.duration)) - 1) {
-                this.setTime(0);
-                this.pause()
-            }
         }
     }
     pause() {
@@ -136,8 +136,11 @@ class Player {
     }
     updateTime(time) {
         this.timeLine.value = time;
-        if (time >= Math.floor(parseFloat(this.audio.duration)) - 1) {
-            this.pause();
+        if (this.audio.currentTime >= Math.floor(parseFloat(this.audio.duration)) - 1) {
+            this.onSongEnd()
         }
+    }
+    onSongEnd(cb) {
+        this.onSongEnd = cb;
     }
 }

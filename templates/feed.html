@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jBox/1.2.14/jBox.all.min.css" integrity="sha512-nFY49gtmPRBEmtfDD+M5eJynOp9Pmdvr95Ck9iDvUt7VH7VByO5/E25MB/hzgSix8RFM6AlulSHuUteAhGqI4A==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jBox/1.2.14/jBox.all.min.js" integrity="sha512-TxApQC6fSIxUXCEzFSbMHNNg998TGkbQ+wgffIe/ZtiPLSRcksqV2EIWXmaGq8FjFlUdFN7V1XCIkZgbRudiqQ==" crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/marker_fav.svg')}}" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
     <link rel="stylesheet" href="/static/css/feed.css">
@@ -17,7 +19,6 @@
     <link rel="stylesheet" href="/static/css/blocks/header.css">
     <script src="/static/js/lib/dotLoading.js"></script>
     <script src="/static/js/lib/notify.min.js"></script>
-    <script src="/static/js/lib/dotLoading.js"></script>
     <script src="/static/js/functions/setUsernameLabel.js"></script>
     <script src="/static/js/functions/getSessionUser.js"></script>
     <script src="/static/js/functions/getUserData.js"></script>
@@ -25,8 +26,6 @@
     <script src="/static/js/functions/getAllSongs.js"></script>
     <script src="/static/js/functions/logOut.js"></script>
     <script src="/static/js/vars.js"></script>
-    <script src="/static/js/header.js"></script>
-    <script src="/static/js/musicPlayer.js"></script>
     <script src="/static/js/Song.js"></script>
     <script src="/static/js/Player.js"></script>
 </head>
@@ -49,13 +48,6 @@
 
     </div>
     <script src="/static/js/feed.js"></script>
-    <script>
-        let loader = new Loader(".dots-loading", 200);
-        loader.startLoading();
-        document.addEventListener('DOMContentLoaded', (e) => {
-            refreshSongs(loader.stopLoading);
-        })
-    </script>
 </body>
 
 </html>
