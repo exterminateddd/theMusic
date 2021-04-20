@@ -3,5 +3,6 @@ class Song {
         this.name = name;
         this.author = author;
         this.hash = hash;
+        this.onPlayEnd = () => {};
     }
 }

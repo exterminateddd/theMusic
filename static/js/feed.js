@@ -2,7 +2,7 @@ const songsBlock = document.querySelector(".music-top-box")
 const logoutBtn = document.querySelector("#logout")
 
 const logoutConfirmModal = new jBox('Confirm', {
-    confirmButton: 'Do it!',
+    confirmButton: 'Yes, sign out!',
     cancelButton: 'Nope',
     confirm: () => {
         logOut()
@@ -17,15 +17,26 @@ const logoutConfirmModal = new jBox('Confirm', {
 
 let isMusicLoading = true;
 let currentUser_;
+let links = [];
 
 let player = new Player('.player-bottom');
+player.onSongChange = (song) => {
+    links.forEach((link) => {
+        link.setPlaying(false);
+    })
+}
+
+// let queue = new SongQueue(player);
+
+// queue.refresh();
+
 
 
 if (localStorage.getItem('lastSong')) {
     getSongData(localStorage.getItem('lastSong'))
         .then((data) => {
             player.show();
-            player.setSong(data.name, data.author, data.hash);
+            player.setSong(new Song(data.name, data.author, data.hash, () => {}));
             player.setTime(localStorage.getItem('lastTime'));
         })
         .catch((err) => {
@@ -57,7 +68,7 @@ function titleCase(str) {
 }
 
 function proccessSongParameter(val) {
-    return titleCase(val.replaceAll("-", " "))
+    return titleCase(val.replaceAll("-", " "));
 }
 
 function newSongPlayListenerCallback() {
@@ -75,25 +86,26 @@ function newSongPlayListenerCallback() {
 function generateSongElementHTML(hash, name, author) {
     return `
                     <div class="song" data-song-hash="${hash}">
-                    <div class="song__left-side">
-                        <h2 class="song-name">
-                            ${proccessSongParameter(name)}
-                        </h2>
-                        <h4 class="song-author">
-                            ${proccessSongParameter(author)}
-                        </h4>
-                    </div>
-                    <div class="song__right-side">
-                        <div class="rec-song-info">
-                        <img src="/static/assets/play.svg" alt="Play this song" class="playRecSong">
+                        <div class="song__left-side">
+                            <h2 class="song-name">
+                                ${proccessSongParameter(name)}
+                            </h2>
+                            <h4 class="song-author">
+                                ${proccessSongParameter(author)}
+                            </h4>
                         </div>
-                        
-                    </div>
+                        <div class="song__right-side">
+                            <div class="rec-song-info">
+                                <span class="material-icons md-48 playRecSong" data-rec-song-hash="${hash}">
+                                    play_circle_outline
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     `
 }
 
-const refreshSongs = (successCallback) => {
+const refreshSongs = () => {
     getAllSongs().then(songs => {
         let songsContent = ``
         songs.forEach(song => {
@@ -102,7 +114,10 @@ const refreshSongs = (successCallback) => {
         songsBlock.innerHTML = songsContent;
         isMusicLoading = false;
         document.querySelectorAll(".playRecSong").forEach((elem) => {
-            elem.addEventListener("click", newSongPlayListenerCallback)
+            getSongData(elem.dataset.recSongHash)
+                .then((data) => {
+                    links.push(new SongLink(`*[data-rec-song-hash="${elem.dataset.recSongHash}"]`, new Song(data.name, data.author, data.hash), player));
+                });
         })
     })
 }

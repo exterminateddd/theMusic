@@ -52,10 +52,8 @@ class Player {
         this.isPlaying = false;
         this.isVisible = true;
         this.currentSong;
-        this.onSongEnd = () => {
-            this.setTime(0);
-            this.pause();
-        }
+        this.onSongEnd = () => {};
+        this.onSongChange;
 
         // listeners
 
@@ -83,27 +81,28 @@ class Player {
         this.audio.volume = 0.5
     }
 
-    setSong(name, author, hash) {
-        this.currentSong = new Song(name, author, hash);
-        this.audio.src = "/static/audio/" + hash + '.mp3';
+    setSong(song) {
+        this.onSongChange()
+        this.currentSong = song;
+        this.audio.src = "/static/audio/" + song.hash + '.mp3';
         this.audio.onloadedmetadata = () => {
             this.timeLine.max = Math.floor(parseFloat(this.audio.duration));
         }
         this.pause()
-        this.authorLbl.textContent = proccessSongParameter(author);
-        this.nameLbl.textContent = proccessSongParameter(name);
+        this.authorLbl.textContent = proccessSongParameter(song.author);
+        this.nameLbl.textContent = proccessSongParameter(song.name);
     }
 
     show() {
         this.container.style.opacity = 1;
         this.isVisible = true;
-        this.visToggleBtn.querySelector("img").style.transform = "rotateY(180deg)"
+        this.visToggleBtn.querySelector("img").style.transform = "rotateY(180deg)";
     }
 
     hide() {
         this.container.style.opacity = 0;
         this.isVisible = false;
-        this.visToggleBtn.querySelector("img").style.transform = "rotateY(0deg)"
+        this.visToggleBtn.querySelector("img").style.transform = "rotateY(0deg)";
     }
 
     play() {
@@ -137,10 +136,10 @@ class Player {
     updateTime(time) {
         this.timeLine.value = time;
         if (this.audio.currentTime >= Math.floor(parseFloat(this.audio.duration)) - 1) {
-            this.onSongEnd()
+            this.setTime(0);
+            this.pause();
+            this.onSongEnd();
+            this.currentSong.onPlayEnd();
         }
-    }
-    onSongEnd(cb) {
-        this.onSongEnd = cb;
     }
 }

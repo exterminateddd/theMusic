@@ -7,22 +7,26 @@
     border: 2px solid white;
 }
 
-.song__right-side, rec-song-info {
-    height: 65px!important;
+.song__right-side {
+    height: auto;
+}
+
+.song__right-side,
+rec-song-info {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.rec-song-info img {
+.rec-song-info span {
     display: block;
-    width: 48px;
     cursor: pointer;
+    font-size: 50px;
 }
 
 .song * {
     color: aliceblue;
-    height: 100%;
+    height: auto;
     width: auto;
 }
 
@@ -40,7 +44,8 @@
     .song__left-side {
         margin: 0 auto;
     }
-    .song-name, .song-author {
+    .song-name,
+    .song-author {
         text-align: center;
     }
 }
