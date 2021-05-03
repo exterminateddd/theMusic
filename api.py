@@ -131,7 +131,7 @@ def get_song_data_(hash_: str):
         "data": {}
     }
     with suppress(Exception):
-        song = get_song_data(hash_)
+        song = get_song_data(hash_)=
         print("SONG", song)
         resp_json['data'] = song
         resp_json['data']['_id'] = 0
